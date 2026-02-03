@@ -1,0 +1,480 @@
+﻿@using DataminersModel.ViewModels
+@using System.Text.Json
+@model DataminersModel.ViewModels.ITDBCloseViewModel
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ITDBRequest Details</title>
+
+     <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" /> 
+    <!-- Bootstrap Icons -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" />
+
+
+
+    <style>
+        .navbar-marron {
+            background-color: #800000 !important;
+            min-height: 54px;
+        }
+
+            .navbar-marron .navbar-nav .nav-link {
+                color: #fff !important;
+                font-weight: 500;
+                font-size: 16px;
+                margin-right: 12px;
+                display: flex;
+                align-items: center;
+                transition: color 0.13s;
+            }
+
+                .navbar-marron .navbar-nav .nav-link:hover,
+                .navbar-marron .navbar-nav .nav-link:focus {
+                    color: #fcdda0 !important;
+                }
+
+                .navbar-marron .navbar-nav .nav-link .bi {
+                    font-size: 17px;
+                    margin-right: 6px;
+                    vertical-align: middle;
+                }
+
+            .navbar-marron .navbar-brand {
+                color: #fff;
+                font-weight: 700;
+                font-size: 20px;
+                margin-left: 16px;
+            }
+        @@media (max-width: 768px) {
+            .navbar-marron .navbar-brand, .navbar-marron .navbar-nav .nav-link
+
+        {
+            font-size: 17px;
+        }
+
+        .navbar-marron .navbar-nav .nav-link {
+            margin-right: 0;
+        }
+
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-open {
+            background-color: #28a745; /* Bootstrap success green */
+        }
+
+        .status-wip {
+            background-color: #ffc107; /* Bootstrap warning yellow */
+            color: #212529;
+        }
+
+    </style>
+
+   
+
+
+</head>
+<body>
+    @*   <table class="form-control table-responsive table-sm" >
+        <thead>
+            <tr>
+                <th>Request ID</th>
+                <th>Request Date</th>
+                <th>Request Source</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Data Request Type</th>
+                <th>Customer Type</th>
+                <th>Customer Desig.</th>
+                <th>Contact No</th>
+                <th>Requestor</th>
+                <th>File Name</th>
+                <th>TAT</th>
+                <th>Final Status</th>
+                <th>Assign To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RequestDetails)
+            {
+                var statusClass = item.FinalStatus?.ToLower() == "open" ? "status-pill status-open" :
+                item.FinalStatus?.ToLower() == "wip" ? "status-pill status-wip" : "status-pill";
+
+                <tr>
+                    <td>@item.RequestID</td>
+                    <td>@(item.ReqDateTime.HasValue? item.ReqDateTime.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                    <td>@item.RequestSource</td>
+                    <td>@(item.RequestDataFromDate.HasValue? item.RequestDataFromDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                    <td>@(item.RequestDataToDate.HasValue? item.RequestDataToDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                    <td>@item.DataRequestType</td>
+                    <td>@item.CustomerType</td>
+                    <td>@item.CustomerDesignation</td>
+                    <td>@item.ContactNo</td>
+                    <td>@item.Requestor</td>
+                    <td>@item.FileName</td>
+                    <td>@item.TAT</td>
+                    <td><span class="@statusClass">@item.FinalStatus</span></td>
+                    <td>@item.AssginTo</td>
+                </tr>
+            };
+
+        </tbody>
+    </table>
+    </table>
+ 
+
+
+     <input id="searchBox" placeholder="Search...." class="form-control" />
+    <div id="gridContainer">
+        <table id="grid"></table>
+        <div id="pager"></div>
+    </div> 
+    <!-- Modal -->
+    <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestModalLabel">Request Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm">
+                        <div class="mb-3">
+                            <label>Request ID</label>
+                            <input type="text" class="form-control" id="modalRequestID" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Request Source</label>
+                            <input type="text" class="form-control" id="modalRequestSource" readonly />
+                        </div>
+                        <div class="mb-3">
+                            <label>Final Status</label>
+                            <select id="modalFinalStatus" class="form-select">
+                                <option value="open">Open</option>
+                                <option value="wip">WIP</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-marron">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#">
+                @* <img src="~/images/bfillogo.png" alt="Logo" class="logo-img"  style="height:50px; width:120px"/> *@
+
+                <span class="brand-text font-weight-normal" style="font-size:medium">Data Request Details</span>
+                </a>
+            <button class="navbar-toggler text-white bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMaroon" aria-controls="navbarMaroon" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarMaroon">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-search"></i>
+                            RequestID Status
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/docs/5.0/examples/headers/#">
+                            <i class="bi bi-speedometer2"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/docs/5.0/examples/headers/#">
+                            <i class="bi bi-receipt"></i>
+                            Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/docs/5.0/examples/headers/#">
+                            <i class="bi bi-box-seam"></i>
+                            Products
+                        </a>
+                    </li>
+                    @* <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/docs/5.0/examples/headers/#">
+                            <i class="bi bi-people-fill"></i>
+                            Customers
+                        </a>
+                    </li> *@
+                    <li class="nav-item">
+                        <a class="nav-link" href="/RequestorLogin/Login">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        
+    <div class="container">
+        <form method="post" asp-controller="ITDBCheckerDetails" asp-action="Index">
+            <div class="input-group mb-3" style="max-width: 400px;">
+                <input type="text" id="requestIdInput" name="RequestID" class="form-control" placeholder="Enter Request ID" aria-label="Request ID" />
+                <button type="submit" class="btn btn-primary">Show Details</button>
+            </div>
+        </form>
+        
+
+        @if(Model.RequestIDSearch != null && Model.RequestIDSearch.Any())
+        {
+            <table class="form-control table-responsive table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Request Date</th>
+                        <th>Request Source</th>
+                        <th>Customer Type</th>
+                        <th>Customer Name</th>
+                        <th>Initial Status</th>
+                        <th>Assign Date</th>
+                        <th>Completed Date</th>
+                        <th>Verified By</th>
+                        <th>Final Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RequestIDSearch)
+                    {
+                        var statusClass = item.FinalStatus?.ToLower() == "open" ? "status-pill status-open" :
+                        item.FinalStatus?.ToLower() == "wip" ? "status-pill status-wip" : "status-pill";
+
+                        <tr>
+                            <td>@item.RequestID</td>
+                            <td>@(item.RequestDate.HasValue? item.RequestDate.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                            <td>@item.RequestSource</td>
+                            @*   <td>@(item.RequestDataFromDate.HasValue? item.RequestDataFromDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                        <td>@(item.RequestDataToDate.HasValue? item.RequestDataToDate.Value.ToString("yyyy-MM-dd") : "")</td> *@
+                            <td>@item.CustomerType</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.InitialStatus</td>
+                            <td>@item.AssginTo</td>
+                            <td>@(item.AssignDate.HasValue? item.AssignDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                            <td>@item.CompletedDate</td>
+                            <td>@item.VerifiedBy</td>
+                            <td><span class="@statusClass">@item.FinalStatus</span></td>
+
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+        }
+        @* else
+        {
+            <div class="alert alert-info">No data available or request not searched yet.</div>
+        } *@
+
+        
+    </div>
+
+
+    <div>
+        <table id="clientsTable" class="table border table-striped" style="width:100%; font-size:small">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Request Date</th>
+                    <th>Request Source</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Data Request Type</th>
+                    <th>Customer Type</th>
+                    <th>Customer Desig.</th>
+                    <th>Contact No</th>
+                    <th>Requestor</th>
+                    <th>File Name</th>
+                    <th>TAT</th>
+                    <th>Final Status</th>
+                    <th>Assign To</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+</div>
+           
+        
+       
+
+    @* <script>
+        $(function() 
+        {
+          // Server-rendered JSON data embedded into JS variable
+          var mydata = @Html.Raw(JsonSerializer.Serialize(Model.RequestDetails));
+
+          // Initialize jqGrid
+          $("#grid").jqGrid({
+            datatype: "local",
+            data: mydata,
+            colModel: [
+              { label: 'RequestID', name: 'RequestID', width: 130, key:true, sorttype: 'text' },
+              { label: 'Req.Date', name: 'ReqDateTime', width: 90, sorttype: 'date', formatter: 'date', formatoptions:{newformat:'Y-m-d'}  },
+              { label: 'Request Source', name: 'RequestSource', width: 120, sorttype: 'text' },
+              { label: 'From Date', name: 'RequestDataFromDate', width: 90, sorttype: 'date', formatter: 'date', formatoptions:{newformat:'Y-m-d'} },
+              { label: 'To Date', name: 'RequestDataToDate', width: 90, sorttype: 'date', formatter: 'date', formatoptions:{newformat:'Y-m-d'} },
+              { label: 'Request Type', name: 'DataRequestType', width: 140, sorttype: 'text' },
+              { label: 'Customer Type', name: 'CustomerType', width: 130, sorttype: 'text' },
+              { label: 'Customer Desig.', name: 'CustomerDesignation', width: 150, sorttype: 'text' },
+              { label: 'ContactNo', name: 'ContactNo', width: 120, sorttype: 'text' },
+              { label: 'Requestor', name: 'Requestor', width: 140, sorttype: 'text' },
+              { label: 'File Name', name: 'FileName', width: 180, sorttype: 'text' },
+              { label: 'TAT', name: 'TAT', width: 100, sorttype: 'text' },
+
+              { label: 'Final Status', name: 'FinalStatus', width: 100, sorttype: 'text',
+                formatter: function(cellValue) {
+                  var cls = cellValue.toLowerCase() === "open" ? "badge bg-success" :
+                            cellValue.toLowerCase() === "wip" ? "badge bg-warning text-dark" : "badge bg-secondary";
+                  return '<span class="' + cls + '">' + cellValue.toUpperCase() + '</span>';
+                }
+              }
+            ],
+            viewrecords: true,
+            width: 780,
+            height: 250,
+            rowNum: 10,
+            pager: "#pager",
+            caption: "Requests",
+            rowList: [5, 10, 20],
+            sortname: 'ReqDateTime',
+            sortorder: 'desc',
+            loadonce: true,
+            onSelectRow: function(id) 
+            {
+              var row = $("#grid").jqGrid('getRowData', id);
+              // fill modal fields
+              $('#modalRequestID').val(row.RequestID);
+              $('#modalRequestSource').val(row.RequestSource);
+              $('#modalFinalStatus').val(row.FinalStatus.toLowerCase());
+              $('#requestModal').modal('show');
+            }
+          });
+
+              // Responsive adjustments on window resize
+        $(window).on('resize', function() {
+          var gridWidth = $("#gridContainer").width();
+          $("#grid").jqGrid('setGridWidth', gridWidth);
+        }).trigger('resize');
+
+          // Search filter on RequestSource
+          $('#searchBox').on('input', function() {
+            var sdata = $(this).val().toLowerCase();
+            var filtered = mydata.filter(function(item) {
+              return item.RequestSource.toLowerCase().indexOf(sdata) !== -1;
+            });
+            $("#grid").jqGrid('clearGridData')
+                      .jqGrid('setGridParam', {data: filtered})
+                      .trigger('reloadGrid');
+          });
+
+          // Modal save handler (demo)
+          $('#requestForm').on('submit', function(e) {
+            e.preventDefault();
+            alert('Save clicked for RequestID: ' + $('#modalRequestID').val() + '\nNew Status: ' + $('#modalFinalStatus').val());
+            $('#requestModal').modal('hide');
+          });
+        });
+    </script> *@
+
+
+
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        $(document).ready(function() {
+          var table = $('#clientsTable').DataTable({
+            serverSide: true,
+            processing: true,
+            paging:true,
+            searching:true,
+            ordering: true,
+            ajax: function(data, callback, settings) 
+            {
+                debugger;
+              // Use DataTable's own search input:
+              let searchValue = data.search.value;
+
+              $.ajax({
+                url: "/ITDBCheckerDetails/GetRequests",
+                type: "GET",
+                data: 
+                {
+                  search: searchValue,
+                  page: (data.start / data.length) + 1,
+                  pageSize: data.length
+                },
+                success: function(response) {
+                  callback({
+                    draw: data.draw,
+                    recordsTotal: response.totalRecords,
+                    recordsFiltered: response.totalRecords,
+                    data: response.data
+                  });
+                },
+                error: function(xhr, status, error) {
+                  console.error("AJAX Error:", error);
+                }
+              });
+            },
+            columns: [
+              { data: "requestID" },
+              { data: "reqDateTime" },
+              { data: "requestSource" },
+              { data: "requestDataFromDate" },
+              { data: "requestDataToDate" },
+              { data: "dataRequestType" },
+              { data: "customerType" },
+              { data: "customerDesignation" },
+              { data: "contactNo" },
+              { data: "requestor" },
+              { data: "fileName" },
+              { data: "tat" },
+              { data: "finalStatus" },
+              { data: "assignTo" }
+            ],
+            paging: true,
+            searching: true,
+            ordering: true,
+            dom: 'Bfrtip',
+          });
+        });
+    </script>
+</body>
+</html>

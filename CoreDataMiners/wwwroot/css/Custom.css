@@ -1,0 +1,27 @@
+﻿/* Ensure DataTables styles override Bootstrap */
+table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.dataTables_wrapper {
+    font-size: 14px !important;
+}
+
+/* Fix column headers */
+table.dataTable thead th {
+    background-color: #007bff !important;
+    color: white !important;
+    padding: 10px !important;
+}
+
+/* Fix row styles */
+table.dataTable tbody tr {
+    background-color: #fff !important;
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Fix pagination */
+.dataTables_paginate {
+    margin-top: 10px !important;
+}

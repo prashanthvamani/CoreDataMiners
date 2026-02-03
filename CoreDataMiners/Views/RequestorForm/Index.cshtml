@@ -1,0 +1,361 @@
+﻿@model DataminersModel.CustomerReqModel.customerReq
+
+@{
+    Layout = null;
+}
+
+
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+
+<style>
+    body {
+        /*background: linear-gradient(135deg, #7d2232 0%, #3d1c2b 100%);*/
+        background-color: #b97373;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .card {
+        border-radius: 1rem;
+        background-color: #fffafc;
+        box-shadow: 0 4px 12px rgba(125,34,50,0.08);
+    }
+
+    .navbar-brand {
+        font-size: 2rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+        .navbar-brand span {
+            color: #a52a2a;
+        }
+
+    .dashboard-box {
+        min-width: 120px;
+    }
+
+    .dashboard-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .request-btn {
+        background-color: #a52a2a;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(165,42,42,0.2);
+    }
+
+    .card-header {
+        background: linear-gradient(90deg, #822e42 70%, #a52a2a 100%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.25rem;
+        letter-spacing: 2px;
+    }
+
+    .form-check-input:checked {
+        background-color: #a52a2a;
+        border-color: #a52a2a;
+    }
+
+    .btn-outline-warning {
+        border-color: #a52a2a;
+        color: #a52a2a;
+    }
+
+        .btn-outline-warning:hover {
+            background-color: #a52a2a;
+            color: #fff;
+        }
+
+    .navbar, .navbar-light {
+        background-color: #fffafa !important;
+        box-shadow: 0 4px 12px rgba(125,34,50,0.07);
+    }
+
+    .text-primary {
+        color: #a52a2a !important;
+    }
+
+    .text-danger {
+        color: #ff585a !important;
+    }
+
+    .text-success {
+        color: #59c582 !important;
+    }
+    /* Removed container padding, full width */
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    /* Logo img styling */
+    .logo-img {
+        max-height: 48px;
+        width: auto;
+        margin-right: 0.75rem;
+    }
+</style>
+
+
+<div class="container-fluid my-4">
+    <!-- Header and Navigation -->
+    <nav class="navbar navbar-light shadow-sm rounded p-3 mb-4 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <img src="~/images/bfillogo.png" alt="Logo" class="logo-img" />
+            <a class="navbar-brand mb-0" href="#">DATA<span>MINERS</span></a>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-warning me-2">Help Document</a>
+            @* <button class="btn btn-dark">ITDB LOGIN</button> *@
+            <a href="@Url.Action("ITDBLogin", "ITDBLogin")" class="btn btn-dark">ITDB LOGIN</a>
+        </div>
+    </nav>
+
+    <!-- User Credentials Section with Header and Icons -->
+    <div class="card mb-3 mx-3">
+        <div class="card-header bg-secondary text-white fw-bold">
+            <i class="bi bi-person-circle me-2"></i>User Credentials
+        </div>
+        <div class="card-body row">
+            <div class="col-md-4">
+                <p class="mb-2"><strong><i class="bi bi-person-badge me-1"></i></strong> @Context.Session.GetString("userid") </p>
+                <p class="mb-2"><i class="bi bi-envelope me-1"></i> @ViewData["EMP_MAILID"]</p>
+                <p class="mb-2"><i class="bi bi-briefcase me-1"></i>@ViewData["DESIGNATION_NAME"]</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-2"><i class="bi bi-123 me-1"></i> @ViewData["empid"] </p>
+                <p class="mb-2"><i class="bi bi-phone me-1"></i>@ViewData["EMP_MOBILE_NO"]</p>
+                <p class="mb-2"><i class="bi bi-telephone me-1"></i> 6030</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-2"><i class="bi bi-geo-alt me-1"></i>@ViewData["LOCATION_NAME"]</p>
+                <p class="mb-2"><i class="bi bi-building me-1"></i>@ViewData["DM_DEPT_NAME"]</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="row mb-4 text-center mx-3">
+        <div class="col dashboard-box">
+            <span class="fw-semibold">Open</span>
+            <div class="dashboard-value text-primary">@ViewData["OpenCount"]</div>
+        </div>
+        <div class="col dashboard-box">
+            <span class="fw-semibold">WIP</span>
+            <div class="dashboard-value text-primary">@ViewData["WIPCount"]</div>
+        </div>
+        <div class="col dashboard-box">
+            <span class="fw-semibold">Reject</span>
+            <div class="dashboard-value text-danger">@ViewData["CloseCount"]</div>
+        </div>
+        <div class="col dashboard-box">
+            <span class="fw-semibold">Closed</span>
+            <div class="dashboard-value text-success">@ViewData["RejectCount"]</div>
+        </div>
+        <div class="col dashboard-box">
+            <span class="fw-semibold">Requests</span>
+            <div class="dashboard-value text-primary">@ViewData["SelfCount"]</div>
+        </div>
+    </div>
+
+    <!-- Request Sheet Form -->
+    <div class="card shadow-sm mb-4 mx-3">
+        <div class="card-header text-center">REQUEST SHEET</div>
+        <div class="card-body">
+            <form asp-action="Index" method="post" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Request Source</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source1" value="Core Business">
+                            <label class="form-check-label" for="source1">Core Business</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source2" value="IBG">
+                            <label class="form-check-label" for="source2">IBG</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source3" value="CDF">
+                            <label class="form-check-label" for="source3">CDF</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source4" value="Finance">
+                            <label class="form-check-label" for="source4">Finance</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source5" value="MHL">
+                            <label class="form-check-label" for="source5">MHL</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source6" value="RBI">
+                            <label class="form-check-label" for="source6">RBI</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source7" value="Concurrent Audit">
+                            <label class="form-check-label" for="source7">Concurrent Audit</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestSource" asp-for="RequestSource" id="source8" value="IBL IA">
+                            <label class="form-check-label" for="source8">IBL IA</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Select Dates</label>
+                        <div class="row">
+                            <div class="col">
+                                <input type="date" class="form-control mb-2" asp-for="FromDate" name="FromDate" placeholder="From Date" value="">
+                            </div>
+                            <div class="col">
+                                <input type="date" class="form-control mb-2" asp-for="ToDate" name="ToDate" placeholder="To Date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Report Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Report Name" required asp-for="Reportname" name="Reportname">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Request Type</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestType" id="type1" value="Data" onclick="toggleFrequency('data')">
+                            <label class="form-check-label" for="type1">Data</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="RequestType" id="type2" value="Summary" onclick="toggleFrequency('summary')">
+                            <label class="form-check-label" for="type2">Summary</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-6" id="dataFrequencyRow" style="display: none;">
+                    <div class="col mb-3">
+                        <label class="form-label">Data Frequency</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq1" asp-for="summarytype" value="OTR Data">
+                                <label class="form-check-label" for="freq1">OTR Data</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq2" asp-for="summarytype" value="Daily Data">
+                                <label class="form-check-label" for="freq2">Daily Data</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq3" asp-for="summarytype" value="Weekly Data">
+                                <label class="form-check-label" for="freq3">Weekly Data</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq4" asp-for="summarytype" value="FortNightly Data">
+                                <label class="form-check-label" for="freq4">FortNightly Data</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq5" asp-for="summarytype" value="Monthly Data">
+                                <label class="form-check-label" for="freq5">Monthly Data</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="freq6" asp-for="summarytype" value="Quarterly Data">
+                                <label class="form-check-label" for="freq6">Quarterly Data</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-6" id="summaryFrequencyRow" style="display: none;">
+                    <div class="col mb-3">
+                        <label class="form-label">Summary Frequency</label>
+                        <div class="d-flex flex-wrap gap-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq1" asp-for="summarytype" value="OTR Summary">
+                                <label class="form-check-label" for="sfreq1">OTR Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq2" asp-for="summarytype" value="Daily Summary">
+                                <label class="form-check-label" for="sfreq2">Daily Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq3" asp-for="summarytype" value="Weekly Summary">
+                                <label class="form-check-label" for="sfreq3">Weekly Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq4" asp-for="summarytype" value="FortNightly Summary">
+                                <label class="form-check-label" for="sfreq4">FortNightly Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq5" asp-for="summarytype" value="Monthly Summary">
+                                <label class="form-check-label" for="sfreq5">Monthly Summary</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="summarytype" id="sfreq6" asp-for="summarytype" value="Quarterly Summary">
+                                <label class="form-check-label" for="sfreq6">Quarterly Summary</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Description Of Request</label>
+                        <textarea class="form-control" rows="2" placeholder="Enter Description of Request" name="Description" required asp-for="Description"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Business Requirement</label>
+                        <textarea class="form-control" rows="2" placeholder="Enter Business Requirement" name="BussinessRequirement" required asp-for="BussinessRequirement"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Reporting To Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Reporting To Name" name="AddCustomerName">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Reporting To Email</label>
+                        <input type="email" class="form-control" placeholder="Enter Reporting To Email" name="AddCustomerEMailID">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">File Upload</label>
+                        <input type="file" class="form-control" accept=".xls,.xlsx" asp-for="fileToUpload" name="fileToUpload">
+                        <small class="text-danger">Upload Below 5Mb Excel File Only</small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button type="submit" class="btn request-btn">REQUEST DATA</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS Bundle CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Always hide frequency groups until Request Type is chosen
+    function toggleFrequency(type) {
+        document.getElementById('dataFrequencyRow').style.display = (type === 'data') ? 'block' : 'none';
+        document.getElementById('summaryFrequencyRow').style.display = (type === 'summary') ? 'block' : 'none';
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById('dataFrequencyRow').style.display = 'none';
+        document.getElementById('summaryFrequencyRow').style.display = 'none';
+        // Unselect request type on load
+        document.getElementById('typeData').checked = false;
+        document.getElementById('typeSummary').checked = false;
+    });
+</script>
