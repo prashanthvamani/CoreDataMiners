@@ -58,7 +58,7 @@ namespace DataMinersWeb.Controllers
             if (!eCode.StartsWith("E20"))
             {
                 string employeeId = eCode;
-                var UserName = "BFIL\\" + Uname;
+                var UserName = "BFIL\\" + Uname
                 //string designation = ds.Tables[0].Rows[0]["Designation"].ToString();
                 //string employeeName = ds.Tables[0].Rows[0]["EmployeeName"].ToString();
 
