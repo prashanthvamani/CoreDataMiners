@@ -7,9 +7,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-  # =========================
-  # CI JOB (Build + Publish)
-  # =========================
  build:
     runs-on: ubuntu-latest
 
