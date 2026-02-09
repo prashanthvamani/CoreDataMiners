@@ -7,23 +7,30 @@ on:
     branches: [ "master" ]
 
 jobs:
-  deploy:
-    # Run only if build job succeeds
-    needs: build
-
-    # Use a fresh machine for deployment
+ build:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Download the artifact created by CI
-    - name: Download build artifact
-      uses: actions/download-artifact@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Publish application
+      run: dotnet publish -c Release -o publish
+
+    # ------------------------------------
+    # Step 5: Upload build artifacts
+    # This allows us to download build output
+    # ------------------------------------
+    - name: Upload publish artifact
+      uses: actions/upload-artifact@v4
       with:
         name: app-publish-output
-        path: deploy-folder
-
-    # Step 2: Simulate deployment
-    - name: Simulate deployment
-      run: |
-        echo "Deploying application..."
-        ls deploy-folder
+        path: publish
