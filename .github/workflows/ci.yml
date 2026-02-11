@@ -25,23 +25,14 @@ jobs:
     - name: Publish application
       run: dotnet publish -c Release -o publish
 
-    # ------------------------------------
-    # Step 5: Upload build artifacts
-    # This allows us to download build output
-    # ------------------------------------
     - name: Upload publish artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-publish-output
         path: publish
-  
-  # =========================
-  # CD JOB (Deploy)
-  # =========================
-  deploy:
-    # This job runs ONLY if build job succeeds
-    needs: build
 
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
