@@ -36,7 +36,7 @@ jobs:
   # =========================
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Download build artifact
@@ -45,7 +45,9 @@ jobs:
         name: app-publish-output
         path: deploy-folder
 
-    - name: Simulate deployment
+    - name: Deploy to IIS
       run: |
-        echo "Deploying application..."
-        ls deploy-folder
+        if(!(Test-Path "C:\inetpub\wwwroot\MyApp")) {
+	   New Item -ItemType Directory -path "C:\inetpub\wwwroot\MyApp"
+	}
+	Copy Item -path "deploy-folder\*" -Destination "C:\inetpub\wwwroot\MyApp" -Recurse -Force
