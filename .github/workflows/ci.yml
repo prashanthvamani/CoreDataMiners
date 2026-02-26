@@ -46,7 +46,7 @@ jobs:
         path: ./publish
 	
     - name: Verify publish folder
-       run: ls publish
+      run: ls publish
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
