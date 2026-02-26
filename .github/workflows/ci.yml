@@ -43,7 +43,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: app-publish-output
-        path: deploy-folder
+        path: ./publish
+	
+    - name: Verify publish folder
+       run: ls publish
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
