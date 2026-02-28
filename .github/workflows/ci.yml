@@ -30,3 +30,19 @@ jobs:
         with:
           name: app-publish-output
           path: publish
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-publish-output
+          path: deploy-folder
+
+      - name: Simulate deployment
+        run: |
+          echo "Deploying application..."
+          ls deploy-folder
