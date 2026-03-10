@@ -73,11 +73,6 @@ namespace DataMinersWeb.Controllers
 
                // bool logResult = _loginRepository.UserLogInsert("Forms", employeeName, employeeId, designation, remoteIp, userAgent);
 
-               
-
-                
-
-
                 return RedirectToAction("Index", "RequestorForm");
 
                 //return RedirectToAction("JwtTest", "Test");
